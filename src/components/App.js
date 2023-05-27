@@ -44,7 +44,13 @@ const App = () => {
       setCountdownValue(startingValue);
       setTimer(
         setInterval(() => {
-          setCountdownValue((prevValue) => prevValue - 1);
+          setCountdownValue((prevValue) => {
+            if (prevValue <= 0) {
+              clearInterval(timer);
+              return 0;
+            }
+            return prevValue - 1;
+          });
         }, 1000)
       );
     }
@@ -55,7 +61,14 @@ const App = () => {
       <div id="whole-center">
         <h1>
           Reverse countdown for
-          <input id="timeCount" onKeyDown={handleKeyDown} /> sec.
+          <input
+            id="timeCount"
+            onKeyDown={handleKeyDown}
+            type="number"
+            min="0"
+            step="1"
+          />{" "}
+          sec.
         </h1>
       </div>
       <div id="current-time">{countdownValue}</div>
